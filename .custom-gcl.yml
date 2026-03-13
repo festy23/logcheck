@@ -1,0 +1,5 @@
+version: v2.10.1
+plugins:
+  - module: 'github.com/festy23/loglinter'
+    import: 'github.com/festy23/loglinter/plugin'
+    path: .

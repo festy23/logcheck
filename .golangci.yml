@@ -1,0 +1,15 @@
+linters:
+  enable:
+    - logcheck
+
+linters-settings:
+  custom:
+    logcheck:
+      type: module
+      description: Checks log messages for common issues (lowercase, English, special chars, sensitive data)
+      settings:
+        # Disable specific rules (comma-separated):
+        # disable: "english,specialchars"
+
+        # Add extra sensitive key patterns (comma-separated):
+        # sensitive-patterns: "internal_id,session_key"
