@@ -1,0 +1,29 @@
+pre-commit:
+  jobs:
+    - name: formatters
+      group:
+        jobs:
+          - name: gofix
+            run: go fix ./...
+            stage_fixed: true
+            glob: "*.go"
+          - name: gofmt
+            run: gofmt -l -w {staged_files}
+            stage_fixed: true
+            glob: "*.go"
+          - name: goimports
+            run: goimports -l -w {staged_files}
+            stage_fixed: true
+            glob: "*.go"
+          - name: mod-tidy
+            run: go mod tidy && git diff --exit-code go.mod go.sum
+    - name: checks
+      group:
+        parallel: true
+        jobs:
+          - name: vet
+            run: go vet ./...
+          - name: test
+            run: go test ./... -count=1
+          - name: build
+            run: go build ./cmd/logcheck/

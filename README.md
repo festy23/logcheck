@@ -143,6 +143,30 @@ go vet ./...
 go test ./pkg/analyzer/ -run TestAll -v
 ```
 
+### Git-хуки (Lefthook)
+
+Проект использует [Lefthook](https://github.com/evilmartians/lefthook) для pre-commit проверок.
+
+Установка:
+```bash
+go install github.com/evilmartians/lefthook@latest
+go install golang.org/x/tools/cmd/goimports@latest
+lefthook install
+```
+
+Перед каждым коммитом автоматически запускаются:
+
+**Форматтеры** (последовательно):
+1. `go fix` — модернизация кода (Go 1.26)
+2. `gofmt` — форматирование
+3. `goimports` — порядок импортов
+4. `go mod tidy` — проверка зависимостей
+
+**Проверки** (параллельно):
+- `go vet` — статический анализ
+- `go test` — юнит-тесты
+- `go build` — компиляция
+
 ### Структура проекта
 
 ```

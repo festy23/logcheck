@@ -116,11 +116,11 @@ func (r *sensitiveRule) hasSensitivePattern(s string) bool {
 
 // matchKeywordPattern проверяет, содержит ли lower ключевое слово kw, за которым следует = или :.
 func matchKeywordPattern(lower, kw string) bool {
-	idx := strings.Index(lower, kw)
-	if idx < 0 {
+	_, after, ok := strings.Cut(lower, kw)
+	if !ok {
 		return false
 	}
-	rest := lower[idx+len(kw):]
+	rest := after
 	rest = strings.TrimLeft(rest, " ")
 	return len(rest) > 0 && (rest[0] == '=' || rest[0] == ':')
 }
