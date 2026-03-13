@@ -49,3 +49,13 @@ func (r *Registry) Disable(name string) bool {
 func (r *Registry) Rules() []Rule {
 	return append([]Rule(nil), r.rules...)
 }
+
+// AddSensitivePatterns добавляет дополнительные шаблоны чувствительных ключей в правило sensitive.
+func (r *Registry) AddSensitivePatterns(patterns []string) {
+	for _, rule := range r.rules {
+		if sr, ok := rule.(*sensitiveRule); ok {
+			sr.addPatterns(patterns)
+			return
+		}
+	}
+}

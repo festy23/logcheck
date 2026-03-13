@@ -1,6 +1,8 @@
 package analyzer
 
 import (
+	"strings"
+
 	"github.com/festy23/loglinter/pkg/extractor"
 	"github.com/festy23/loglinter/pkg/rules"
 	"golang.org/x/tools/go/analysis"
@@ -15,9 +17,36 @@ var Analyzer = &analysis.Analyzer{
 	Run:      run,
 }
 
+var (
+	flagDisable           string
+	flagSensitivePatterns string
+)
+
+func init() {
+	Analyzer.Flags.StringVar(&flagDisable, "disable", "", "comma-separated list of rules to disable (e.g. lowercase,english)")
+	Analyzer.Flags.StringVar(&flagSensitivePatterns, "sensitive-patterns", "", "comma-separated list of additional sensitive key patterns")
+}
+
 func run(pass *analysis.Pass) (any, error) {
 	calls := extractor.Extract(pass)
 	reg := rules.NewRegistry()
+
+	if flagDisable != "" {
+		for _, name := range strings.Split(flagDisable, ",") {
+			reg.Disable(strings.TrimSpace(name))
+		}
+	}
+
+	if flagSensitivePatterns != "" {
+		var patterns []string
+		for _, p := range strings.Split(flagSensitivePatterns, ",") {
+			if s := strings.TrimSpace(p); s != "" {
+				patterns = append(patterns, s)
+			}
+		}
+		reg.AddSensitivePatterns(patterns)
+	}
+
 	for i := range calls {
 		reg.RunAll(&calls[i], pass)
 	}
