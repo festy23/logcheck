@@ -21,6 +21,7 @@ func NewRegistry() *Registry {
 func defaultRules() []Rule {
 	return []Rule{
 		&lowercaseRule{},
+		&englishRule{},
 	}
 }
 
