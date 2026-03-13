@@ -19,7 +19,9 @@ func NewRegistry() *Registry {
 
 // defaultRules возвращает встроенные правила.
 func defaultRules() []Rule {
-	return []Rule{}
+	return []Rule{
+		&lowercaseRule{},
+	}
 }
 
 // RunAll выполняет все зарегистрированные правила для данного вызова.

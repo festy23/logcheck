@@ -1,0 +1,29 @@
+package lowercase
+
+import "log/slog"
+
+func good() {
+	slog.Info("hello world")
+	slog.Info("3 retries left")
+	slog.Info("")
+	slog.Info("_internal thing")
+	slog.Info("[debug] something")
+}
+
+func bad() {
+	slog.Info("Hello world")      // want `logcheck: lowercase: message must start with a lowercase letter`
+	slog.Error("Something broke") // want `logcheck: lowercase: message must start with a lowercase letter`
+}
+
+func edgeCases() {
+	msg := getMessage()
+	slog.Info(msg)
+
+	const prefix = "Request started"
+	slog.Info(prefix) // want `logcheck: lowercase: message must start with a lowercase letter`
+
+	slog.Info("User " + "logged in") // want `logcheck: lowercase: message must start with a lowercase letter`
+	slog.Info("user " + "logged in")
+}
+
+func getMessage() string { return "dynamic" }
