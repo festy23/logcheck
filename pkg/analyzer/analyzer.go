@@ -1,6 +1,8 @@
 package analyzer
 
 import (
+	"github.com/festy23/loglinter/pkg/extractor"
+	"github.com/festy23/loglinter/pkg/rules"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 )
@@ -14,5 +16,10 @@ var Analyzer = &analysis.Analyzer{
 }
 
 func run(pass *analysis.Pass) (any, error) {
+	calls := extractor.Extract(pass)
+	reg := rules.NewRegistry()
+	for i := range calls {
+		reg.RunAll(&calls[i], pass)
+	}
 	return nil, nil
 }
