@@ -23,6 +23,7 @@ func defaultRules() []Rule {
 		&lowercaseRule{},
 		&englishRule{},
 		&specialcharsRule{},
+		&sensitiveRule{},
 	}
 }
 
