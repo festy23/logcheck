@@ -112,3 +112,56 @@ func TestIsSpecialChar(t *testing.T) {
 		})
 	}
 }
+
+func TestCleanMessage(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+	}{
+		{"server started 🚀", "server started"},
+		{"build failed ❌", "build failed"},
+		{"arrow → here", "arrow here"},
+		{"star ★ rating", "star rating"},
+		{"copyright ©", "copyright"},
+		{"hello\tworld", "hello world"},
+		{"line1\nline2", "line1 line2"},
+		{"connection failed!!!", "connection failed"},
+		{"something went wrong...", "something went wrong"},
+		{"really???", "really"},
+		{"hello world", "hello world"},
+		{"", ""},
+		{"🚀🚀🚀", ""},
+		{"a!!b", "ab"},     // "!!" удаляется (2+ ! подряд)
+	}
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			if got := cleanMessage(tt.input); got != tt.want {
+				t.Errorf("cleanMessage(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestRemoveDecorativePunctuation(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+	}{
+		{"hello", "hello"},
+		{"hello!", "hello!"},
+		{"hello!!", "hello"},
+		{"hello!!!", "hello"},
+		{"really???", "really"},
+		{"hmm...", "hmm"},
+		{"two..", "two.."},
+		{"a.b.c", "a.b.c"},
+		{"", ""},
+	}
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			if got := removeDecorativePunctuation(tt.input); got != tt.want {
+				t.Errorf("removeDecorativePunctuation(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}

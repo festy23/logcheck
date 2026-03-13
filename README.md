@@ -11,7 +11,7 @@ Go-линтер для проверки сообщений в вызовах `lo
 | **specialchars** | Без спецсимволов и эмодзи | `slog.Info("done! 🎉")` | `slog.Info("done")` |
 | **sensitive** | Нет чувствительных данных в ключах и сообщениях | `slog.Info("auth", "password", pw)` | `slog.Info("auth", "user_id", id)` |
 
-Правило **lowercase** поддерживает автоматическое исправление (`SuggestedFix`).
+Правила **lowercase** и **specialchars** поддерживают автоматическое исправление (`SuggestedFix`).
 
 ## Установка
 
@@ -40,12 +40,32 @@ golangci-lint custom
 
 ## Конфигурация
 
+### Конфигурационный файл (JSON)
+
+Создайте `.logcheck.json` в корне проекта:
+
+```json
+{
+  "disable": ["english"],
+  "sensitive_patterns": ["session_key", "internal_id"]
+}
+```
+
+Передайте путь через флаг:
+
+```bash
+logcheck -logcheck.config=.logcheck.json ./...
+```
+
 ### Флаги анализатора
 
 | Флаг | Описание | Пример |
 |------|----------|--------|
+| `-logcheck.config` | Путь к JSON-файлу конфигурации | `-logcheck.config=.logcheck.json` |
 | `-logcheck.disable` | Отключить правила (через запятую) | `-logcheck.disable=english,specialchars` |
 | `-logcheck.sensitive-patterns` | Дополнительные шаблоны чувствительных данных | `-logcheck.sensitive-patterns=session_key,internal_id` |
+
+Флаги имеют приоритет над конфигурационным файлом.
 
 ### Пример `.golangci.yml`
 
@@ -60,6 +80,7 @@ linters-settings:
       type: module
       description: Checks log messages for common issues
       settings:
+        config: ".logcheck.json"
         disable: "english"
         sensitive-patterns: "session_key,internal_id"
 ```

@@ -10,6 +10,17 @@ import (
 
 func init() {
 	register.Plugin("logcheck", func(conf any) (register.LinterPlugin, error) {
+		if m, ok := conf.(map[string]any); ok {
+			if v, ok := m["disable"].(string); ok {
+				_ = analyzer.Analyzer.Flags.Set("disable", v)
+			}
+			if v, ok := m["sensitive-patterns"].(string); ok {
+				_ = analyzer.Analyzer.Flags.Set("sensitive-patterns", v)
+			}
+			if v, ok := m["config"].(string); ok {
+				_ = analyzer.Analyzer.Flags.Set("config", v)
+			}
+		}
 		return &plugin{}, nil
 	})
 }
