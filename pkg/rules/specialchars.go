@@ -1,6 +1,7 @@
 package rules
 
 import (
+	"strings"
 	"unicode"
 
 	"github.com/festy23/logcheck/pkg/model"
@@ -27,6 +28,20 @@ func (r *specialcharsRule) Check(call *model.LogCall, pass *analysis.Pass) {
 			return
 		}
 	}
+
+	if hasDecorativePunctuation(call.MsgLiteral) {
+		pass.Report(analysis.Diagnostic{
+			Pos:      call.MsgPos,
+			Message:  "logcheck: specialchars: message contains special characters",
+			Category: "specialchars",
+		})
+	}
+}
+
+// hasDecorativePunctuation проверяет наличие повторяющейся ASCII-пунктуации,
+// не несущей информации: "!!!", "...", "???" и т.д.
+func hasDecorativePunctuation(s string) bool {
+	return strings.Contains(s, "!!") || strings.Contains(s, "??") || strings.Contains(s, "...")
 }
 
 // isSpecialChar возвращает true, если руна является управляющим символом,

@@ -40,6 +40,8 @@ func TestSpecialcharsRule_AcceptClean(t *testing.T) {
 		"hello world!",
 		"user@example.com",
 		"",
+		"single dot.",
+		"two dots..",
 	}
 	for _, msg := range tests {
 		call := &model.LogCall{
@@ -48,6 +50,31 @@ func TestSpecialcharsRule_AcceptClean(t *testing.T) {
 		}
 		// Чистые сообщения — нет отчёта → pass может быть nil.
 		r.Check(call, nil)
+	}
+}
+
+func TestHasDecorativePunctuation(t *testing.T) {
+	tests := []struct {
+		s    string
+		want bool
+	}{
+		{"hello world", false},
+		{"hello world!", false},
+		{"connection failed!!!", true},
+		{"what!!", true},
+		{"something went wrong...", true},
+		{"really???", true},
+		{"file.txt", false},
+		{"two dots..", false},
+		{"a.b.c", false},
+		{"", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.s, func(t *testing.T) {
+			if got := hasDecorativePunctuation(tt.s); got != tt.want {
+				t.Errorf("hasDecorativePunctuation(%q) = %v, want %v", tt.s, got, tt.want)
+			}
+		})
 	}
 }
 

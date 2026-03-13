@@ -79,6 +79,16 @@ logcheck -logcheck.disable=english ./...
 logcheck -logcheck.sensitive-patterns=session_key ./...
 ```
 
+### Пример вывода
+
+```
+main.go:12:12: logcheck: lowercase: message must start with a lowercase letter
+main.go:15:12: logcheck: english: message contains non-English characters
+main.go:19:12: logcheck: specialchars: message contains special characters
+main.go:24:12: logcheck: sensitive: message may contain embedded credentials
+main.go:27:12: logcheck: sensitive: key "password" may contain sensitive data
+```
+
 ### Через go vet
 
 ```bash

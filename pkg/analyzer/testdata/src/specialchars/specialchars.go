@@ -12,6 +12,8 @@ func good() {
 	slog.Info("key=value pairs")
 	slog.Info("hello world!")
 	slog.Info("user@example.com logged in")
+	slog.Info("single dot.")
+	slog.Info("two dots..")
 }
 
 func bad() {
@@ -23,6 +25,9 @@ func bad() {
 	slog.Info("copyright ©")               // want `logcheck: specialchars: message contains special characters`
 	slog.Info("hello\tworld")              // want `logcheck: specialchars: message contains special characters`
 	slog.Info("line1\nline2")              // want `logcheck: specialchars: message contains special characters`
+	slog.Error("connection failed!!!")     // want `logcheck: specialchars: message contains special characters`
+	slog.Warn("something went wrong...")   // want `logcheck: specialchars: message contains special characters`
+	slog.Info("really???")                 // want `logcheck: specialchars: message contains special characters`
 }
 
 func edgeCases() {
