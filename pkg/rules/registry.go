@@ -22,6 +22,7 @@ func defaultRules() []Rule {
 	return []Rule{
 		&lowercaseRule{},
 		&englishRule{},
+		&specialcharsRule{},
 	}
 }
 

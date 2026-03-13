@@ -1,0 +1,44 @@
+package rules
+
+import (
+	"unicode"
+
+	"github.com/festy23/loglinter/pkg/model"
+	"golang.org/x/tools/go/analysis"
+)
+
+type specialcharsRule struct{}
+
+func (r *specialcharsRule) Name() string        { return "specialchars" }
+func (r *specialcharsRule) Description() string { return "log messages must not contain special characters or emoji" }
+
+func (r *specialcharsRule) Check(call *model.LogCall, pass *analysis.Pass) {
+	if !call.HasLiteral {
+		return
+	}
+
+	for _, ch := range call.MsgLiteral {
+		if isSpecialChar(ch) {
+			pass.Report(analysis.Diagnostic{
+				Pos:      call.MsgPos,
+				Message:  "logcheck: specialchars: message contains special characters",
+				Category: "specialchars",
+			})
+			return
+		}
+	}
+}
+
+// isSpecialChar возвращает true, если руна является управляющим символом,
+// эмодзи или не-ASCII символом, которому не место в сообщениях логирования.
+func isSpecialChar(r rune) bool {
+	if unicode.IsControl(r) {
+		return true
+	}
+	// Не-ASCII символы, не являющиеся буквами или цифрами (эмодзи, символы и т.д.).
+	// Не-ASCII буквы обрабатываются правилом english.
+	if r > 127 && !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+		return true
+	}
+	return false
+}
