@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(go test*)",
+      "Bash(go build*)",
+      "Bash(go vet*)",
+      "Bash(go run*)",
+      "Bash(go mod*)",
+      "Bash(gofmt*)",
+      "Bash(grep*)",
+      "Bash(find*)",
+      "Bash(cat*)",
+      "Bash(head*)",
+      "Bash(wc*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "gofmt -w $(find . -name '*.go' -not -path './testdata/*' -not -path './vendor/*' 2>/dev/null | head -10) 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
