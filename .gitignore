@@ -1,0 +1,7 @@
+# Build artifacts
+/logcheck
+*.so
+*.exe
+
+# Test artifacts
+coverage.out
