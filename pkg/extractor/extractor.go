@@ -5,7 +5,7 @@ import (
 	"go/types"
 	"strings"
 
-	"github.com/festy23/loglinter/pkg/model"
+	"github.com/festy23/logcheck/pkg/model"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/festy23/loglinter/pkg/analyzer"
+	"github.com/festy23/logcheck/pkg/analyzer"
 	"golang.org/x/tools/go/analysis/singlechecker"
 )
 

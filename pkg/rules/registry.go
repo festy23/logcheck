@@ -1,7 +1,7 @@
 package rules
 
 import (
-	"github.com/festy23/loglinter/pkg/model"
+	"github.com/festy23/logcheck/pkg/model"
 	"golang.org/x/tools/go/analysis"
 )
 

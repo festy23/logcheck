@@ -3,7 +3,7 @@ package analyzer_test
 import (
 	"testing"
 
-	"github.com/festy23/loglinter/pkg/analyzer"
+	"github.com/festy23/logcheck/pkg/analyzer"
 	"golang.org/x/tools/go/analysis/analysistest"
 )
 

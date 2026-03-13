@@ -3,8 +3,8 @@ package analyzer
 import (
 	"strings"
 
-	"github.com/festy23/loglinter/pkg/extractor"
-	"github.com/festy23/loglinter/pkg/rules"
+	"github.com/festy23/logcheck/pkg/extractor"
+	"github.com/festy23/logcheck/pkg/rules"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 )

@@ -18,7 +18,7 @@ Go-линтер для проверки сообщений в вызовах `lo
 ### Standalone
 
 ```bash
-go install github.com/festy23/loglinter/cmd/logcheck@latest
+go install github.com/festy23/logcheck/cmd/logcheck@latest
 ```
 
 ### golangci-lint (module plugin)
@@ -28,8 +28,8 @@ go install github.com/festy23/loglinter/cmd/logcheck@latest
 ```yaml
 version: v2.10.1
 plugins:
-  - module: 'github.com/festy23/loglinter'
-    import: 'github.com/festy23/loglinter/plugin'
+  - module: 'github.com/festy23/logcheck'
+    import: 'github.com/festy23/logcheck/plugin'
 ```
 
 Соберите кастомный golangci-lint:

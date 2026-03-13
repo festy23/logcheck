@@ -3,7 +3,7 @@ package rules
 import (
 	"testing"
 
-	"github.com/festy23/loglinter/pkg/model"
+	"github.com/festy23/logcheck/pkg/model"
 )
 
 func TestSpecialcharsRule_Name(t *testing.T) {

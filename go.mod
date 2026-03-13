@@ -1,4 +1,4 @@
-module github.com/festy23/loglinter
+module github.com/festy23/logcheck
 
 go 1.26
 
